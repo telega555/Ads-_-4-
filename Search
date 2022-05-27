@@ -1,0 +1,40 @@
+package com.example;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Set;
+
+public class Search<T> {
+    protected int count;
+    protected Set<Vertex<T>> marked;
+    protected Map<Vertex<T>, Vertex<T>> edgeTo;
+    protected final Vertex<T> source;
+
+    public Search(Vertex<T> source) {
+        this.source = source;
+        marked = new HashSet<>();
+        edgeTo = new HashMap<>();
+    }
+
+    public boolean hasPathTo(Vertex<T> v) {
+        return marked.contains(v);
+    }
+
+    public Iterable<Vertex<T>> pathTo(T v) {
+        if (!hasPathTo(new Vertex<T>(v))) return null;
+        LinkedList<Vertex<T>> ls = new LinkedList<>();
+        for (Vertex<T> i = new Vertex<T>(v); i != source; i = edgeTo.get(i)) {
+            ls.push(i);
+        }
+        ls.push(source);
+
+        return ls;
+    }
+
+    public int getCount() {
+        return count;
+    }
+}
+
