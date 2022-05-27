@@ -1,0 +1,27 @@
+package com.example;
+
+import java.util.Map;
+
+public class DepthFirstSearch<T> extends Search<T> {
+
+    public DepthFirstSearch(WeightedGraph<T> graph, T source) {
+        super(new Vertex<T>(source));
+        dfs(graph, source);
+    }
+
+    private void dfs(WeightedGraph<T> graph, T current) {
+        marked.add(new Vertex<T>(current));
+        count++;
+
+        Vertex<T>cur = new Vertex<T>(current);
+        for(Map.Entry<Vertex<T>, Double> entry : graph.map.get(graph.map.indexOf(cur)).getAdjacentVertices().entrySet()){
+            Vertex<T> vertex = entry.getKey();
+            if (!marked.contains(vertex)) {
+                edgeTo.put(vertex, new Vertex<T>(current));
+                dfs(graph, vertex.getData());
+            }
+        }
+    }
+
+}
+  
