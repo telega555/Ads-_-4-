@@ -1,0 +1,30 @@
+package com.example;
+
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
+
+public class BreadthFirstSearch<T> extends Search<T> {
+
+    public BreadthFirstSearch(WeightedGraph<T> graph, T source) {
+        super(new Vertex<T>(source));
+        bfs(graph, source);
+    }
+
+    private void bfs(WeightedGraph<T> graph, T current) {
+        marked.add(new Vertex<T>(current));
+        Queue<Vertex<T>> queue = new LinkedList<>();
+        queue.add(new Vertex<T>(current));
+        while (!queue.isEmpty()) {
+            Vertex<T> v = queue.remove();
+            for (Map.Entry<Vertex<T>, Double> entry : graph.map.get(graph.map.indexOf(v)).getAdjacentVertices().entrySet()) {
+                Vertex<T> vertex = entry.getKey();
+                if (!marked.contains(vertex)) {
+                    marked.add(vertex);
+                    edgeTo.put(vertex, v);
+                    queue.add(vertex);
+                }
+            }
+        }
+    }
+}
